@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026年 Claude Code 完全入门指南：从安装到高效开发</title>
+    <meta name="description" content="Claude Code 是 Anthropic 推出的 AI 命令行编程助手。本指南覆盖安装、配置、Skills系统、MCP集成和高效使用技巧。">
+    <meta name="keywords" content="Claude Code, 教程, AI编程, Anthropic, Claude, 命令行工具, Skills, MCP">
+    <meta property="og:title" content="2026年 Claude Code 完全入门指南">
+    <meta property="og:description" content="从零开始学会使用 Claude Code，包括 Skills、MCP、Hooks 等高级功能。">
+    <link rel="canonical" href="https://demo112.github.io/yunqu-ai-skills/blog/claude-code-guide-cn.html">
+    <style>
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;max-width:780px;margin:0 auto;padding:20px;line-height:1.8;color:#1a1a1a}
+        nav{margin-bottom:2em;padding-bottom:1em;border-bottom:1px solid #eee}
+        nav a{margin-right:1em;color:#0366d6;text-decoration:none}
+        h1{font-size:1.8em;margin-top:0}
+        h2{color:#0366d6;margin-top:2em}
+        h3{color:#24292e}
+        code{background:#f6f8fa;padding:2px 6px;border-radius:3px;font-size:0.9em}
+        pre{background:#f6f8fa;padding:16px;border-radius:6px;overflow-x:auto}
+        pre code{background:none;padding:0}
+        .tip{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;margin:1em 0;border-radius:4px}
+        .cta{background:#f0f7ff;border:1px solid #0366d6;border-radius:8px;padding:20px;margin:2em 0}
+        .cta h3{color:#0366d6;margin-top:0}
+        footer{margin-top:3em;padding-top:1em;border-top:1px solid #eee;color:#666;font-size:0.9em}
+        footer a{color:#0366d6}
+    </style>
+</head>
+<body>
+<nav>
+    <a href="https://demo112.github.io/yunqu-ai-skills/">🏠 云渡 AI Skills</a>
+    <a href="index.html">📝 Blog</a>
+    <a href="https://github.com/demo112/yunqu-ai-skills">GitHub</a>
+</nav>
+
+<article>
+<h1>2026年 Claude Code 完全入门指南：从安装到高效开发</h1>
+<p><em>2026年5月14日 · 教程 · 15 分钟阅读</em></p>
+
+<p><strong>Claude Code</strong> 是 Anthropic 推出的命令行 AI 编程助手，能直接在终端中帮你写代码、调试、重构、运行命令。本文从零开始，手把手教你用好 Claude Code。</p>
+
+<h2>一、什么是 Claude Code？</h2>
+
+<p>Claude Code 是一个运行在终端的 AI 编程工具。不同于 Cursor 或 GitHub Copilot 的"补全"模式，Claude Code 更像一个 <strong>全能编程搭档</strong>：</p>
+<ul>
+    <li>✅ 读取整个项目代码，理解上下文</li>
+    <li>✅ 直接执行终端命令（git、npm、docker...）</li>
+    <li>✅ 修改文件、创建文件、运行测试</li>
+    <li>✅ 支持 Skills（自定义专家行为）</li>
+    <li>✅ 支持 MCP（连接外部工具和数据源）</li>
+    <li>✅ 支持 Hooks（在工具调用前后触发自定义逻辑）</li>
+</ul>
+
+<h2>二、安装（2 分钟）</h2>
+
+<pre><code># 使用 npm 全局安装
+npm install -g @anthropic-ai/claude-code
+
+# 验证安装
+claude --version
+
+# 启动
+claude</code></pre>
+
+<div class="tip">
+    <strong>💡 提示：</strong>需要 Node.js 18+。如果用 nvm：<code>nvm install 18 && nvm use 18</code>
+</div>
+
+<h2>三、基本使用</h2>
+
+<p>启动后，直接用自然语言描述你要做什么：</p>
+
+<pre><code># 在项目目录下启动
+cd my-project
+claude
+
+# 常见用法
+> 帮我重构 src/utils.ts 中的 formatDate 函数
+> 运行测试并修复失败的用例
+> 为这个 API 端点添加 Swagger 文档
+> 解释一下这个项目的架构</code></pre>
+
+<h3>核心命令</h3>
+<table>
+    <tr><th>命令</th><th>功能</th></tr>
+    <tr><td><code>/help</code></td><td>查看所有命令</td></tr>
+    <tr><td><code>/skills</code></td><td>查看已加载的 Skills</td></tr>
+    <tr><td><code>/compact</code></td><td>压缩上下文（长会话时节省 token）</td></tr>
+    <tr><td><code>Ctrl+C</code></td><td>中断当前操作</td></tr>
+</table>
+
+<h2>四、Skills 系统（核心功能）</h2>
+
+<p><strong>Skills</strong> 是 Claude Code 最强大的功能之一。它让你可以为 Claude 添加"专业知识"。</p>
+
+<h3>什么是 Skill？</h3>
+<p>一个 SKILL.md 文件，包含结构化指令。放到 <code>.claude/skills/</code> 目录下，Claude 自动加载。</p>
+
+<h3>如何安装别人写好的 Skill？</h3>
+
+<pre><code># 下载一个 Skill
+mkdir -p .claude/skills/code-review
+curl -o .claude/skills/code-review/SKILL.md \
+  https://raw.githubusercontent.com/demo112/yunqu-ai-skills/main/skills/02-code-review-sensei/SKILL.md
+
+# 重启 Claude Code 即可使用
+claude</code></pre>
+
+<h3>有哪些现成的 Skills？</h3>
+
+<p><a href="https://demo112.github.io/yunqu-ai-skills/">云渡 AI Skills 商店</a>提供 15 个专业级 Skills：</p>
+<ul>
+    <li>🔧 <strong>API 集成架构师</strong> — REST/GraphQL/Webhook 集成专家</li>
+    <li>🔒 <strong>安全审计代码审查</strong> — OWASP Top 10 漏洞检测</li>
+    <li>🇨🇳 <strong>小红书内容策略师</strong> — 爆款内容生成（零竞品）</li>
+    <li>🤖 <strong>MCP Tool Developer</strong> — MCP Server 开发全流程</li>
+</ul>
+
+<div class="cta">
+    <h3>🚀 专业 Skills，即买即用</h3>
+    <p>15 个精选 Claude Code Skills，覆盖开发、安全、营销、中国市场。从 ¥35 起。</p>
+    <p><a href="https://demo112.github.io/yunqu-ai-skills/">浏览全部 15 个 Skills →</a></p>
+</div>
+
+<h2>五、MCP 集成</h2>
+
+<p><strong>MCP (Model Context Protocol)</strong> 让 Claude Code 连接外部工具和数据源。</p>
+
+<pre><code># 配置 MCP Server（在 .claude/settings.json 中）
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/dir"]
+    }
+  }
+}</code></pre>
+
+<p>配置后，Claude Code 可以直接访问这些外部资源，极大扩展了能力范围。</p>
+
+<h2>六、Hooks（高级功能）</h2>
+
+<p>Hooks 让你在 Claude 执行操作前后运行自定义脚本：</p>
+
+<ul>
+    <li><code>PreToolUse</code> — 在工具调用前触发（可以做安全检查）</li>
+    <li><code>PostToolUse</code> — 在工具调用后触发（可以做日志记录）</li>
+    <li><code>Notification</code> — 在 Claude 需要通知你时触发</li>
+</ul>
+
+<div class="tip">
+    <strong>💡 安全 Hook：</strong>推荐安装 <a href="https://github.com/demo112/yunqu-ai-skills">安全审查 Skill</a>，它会在 Claude 执行危险命令（rm -rf、DROP TABLE）前自动拦截。
+</div>
+
+<h2>七、高效使用技巧</h2>
+
+<h3>1. 用 CLAUDE.md 定义项目规范</h3>
+<p>在项目根目录创建 <code>CLAUDE.md</code>，定义技术栈、代码规范、常用命令。Claude 每次启动都会读取。</p>
+
+<h3>2. 分阶段处理大任务</h3>
+<p>不要让 Claude 一次做太多。拆分为多个步骤，每步确认后再继续。</p>
+
+<h3>3. 用 <code>/compact</code> 管理上下文</h3>
+<p>长对话会消耗大量 token。定期 <code>/compact</code> 压缩历史上下文。</p>
+
+<h3>4. 善用 Skills 堆叠</h3>
+<p>同时加载多个 Skills 获得复合效果：Code Review + Security Audit = 全方位代码审查。</p>
+
+<h2>八、总结</h2>
+
+<p>Claude Code 2026 年已经是一个成熟的 AI 编程工具。通过 Skills + MCP + Hooks 三大扩展系统，它远超普通的代码补全工具。</p>
+
+<p>开始步骤：</p>
+<ol>
+    <li>安装 Claude Code：<code>npm i -g @anthropic-ai/claude-code</code></li>
+    <li>在项目中创建 <code>CLAUDE.md</code></li>
+    <li>安装你需要的 <a href="https://demo112.github.io/yunqu-ai-skills/">专业 Skills</a></li>
+    <li>开始编码 🚀</li>
+</ol>
+
+<footer>
+    <p>© 2026 <a href="https://demo112.github.io/yunqu-ai-skills/">云渡 AI</a> · 
+    <a href="index.html">Blog</a> · 
+    <a href="https://github.com/demo112/yunqu-ai-skills">GitHub</a></p>
+</footer>
+</article>
+</body>
+</html>

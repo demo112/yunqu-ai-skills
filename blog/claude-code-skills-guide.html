@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code Skills: The Complete Guide to Custom AI Behaviors in 2026</title>
+    <meta name="description" content="Learn how Claude Code Skills work, how to create your own SKILL.md files, and where to find the best pre-built skills for development, security, and marketing.">
+    <meta name="keywords" content="claude code skills, SKILL.md, claude ai, anthropic, ai coding, custom ai behavior, claude code tutorial">
+    <meta property="og:title" content="Claude Code Skills: The Complete Guide (2026)">
+    <meta property="og:description" content="Everything you need to know about Claude Code Skills — creating, using, and selling custom AI behaviors.">
+    <meta property="og:type" content="article">
+    <link rel="canonical" href="https://demo112.github.io/yunqu-ai-skills/blog/claude-code-skills-guide.html">
+    <style>
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:780px;margin:0 auto;padding:20px;line-height:1.7;color:#1a1a1a}
+        nav{margin-bottom:2em;padding-bottom:1em;border-bottom:1px solid #eee}
+        nav a{margin-right:1em;color:#0366d6;text-decoration:none}
+        h1{font-size:1.8em;margin-top:0}
+        h2{color:#0366d6;margin-top:2em}
+        h3{color:#24292e}
+        code{background:#f6f8fa;padding:2px 6px;border-radius:3px;font-size:0.9em}
+        pre{background:#f6f8fa;padding:16px;border-radius:6px;overflow-x:auto}
+        pre code{background:none;padding:0}
+        .cta{background:#f0f7ff;border:1px solid #0366d6;border-radius:8px;padding:20px;margin:2em 0}
+        .cta h3{color:#0366d6;margin-top:0}
+        .tag{display:inline-block;background:#e1f0ff;color:#0366d6;padding:2px 8px;border-radius:12px;font-size:0.85em;margin:2px}
+        footer{margin-top:3em;padding-top:1em;border-top:1px solid #eee;color:#666;font-size:0.9em}
+        footer a{color:#0366d6}
+    </style>
+</head>
+<body>
+<nav>
+    <a href="https://demo112.github.io/yunqu-ai-skills/">🏠 云渡 AI Skills</a>
+    <a href="index.html">📝 Blog</a>
+    <a href="https://github.com/demo112/yunqu-ai-skills">GitHub</a>
+</nav>
+
+<article>
+<h1>Claude Code Skills: The Complete Guide to Custom AI Behaviors in 2026</h1>
+<p><em>May 14, 2026 · Tutorial · 12 min read</em></p>
+
+<p>If you're using <strong>Claude Code</strong> (Anthropic's CLI coding assistant), you've probably noticed it works well out of the box. But the real power comes from <strong>Skills</strong> — custom SKILL.md files that teach Claude specialized behaviors for your specific workflow.</p>
+
+<p>In this guide, I'll cover everything: what Skills are, how they work, how to write your own, and where to find the best pre-built ones.</p>
+
+<h2>What Are Claude Code Skills?</h2>
+
+<p>A <strong>Skill</strong> is a Markdown file (<code>SKILL.md</code>) placed in your project's <code>.claude/skills/</code> directory. When Claude Code starts a session, it loads these files as additional context, giving it domain-specific instructions.</p>
+
+<p>Think of it like this: Claude is a smart generalist. Skills turn it into a specialist.</p>
+
+<h3>Example: Without vs. With Skills</h3>
+
+<p><strong>Without a skill</strong>, if you ask Claude to review your code, it gives generic feedback.</p>
+
+<p><strong>With the Code Review Sensei skill</strong>, Claude knows to check for OWASP vulnerabilities, language-specific anti-patterns, performance traps, and architectural issues. It produces a structured report with severity ratings.</p>
+
+<h2>How Skills Work (Under the Hood)</h2>
+
+<p>When Claude Code starts, it scans for SKILL.md files in:</p>
+<ol>
+    <li><code>~/.claude/skills/</code> — Global skills (apply to all projects)</li>
+    <li><code>.claude/skills/</code> — Project-specific skills</li>
+    <li><code>.claude/skills/*/SKILL.md</code> — Namespaced skills</li>
+</ol>
+
+<p>Each file becomes part of Claude's system context. The format is plain Markdown with structured sections:</p>
+
+<pre><code># Skill Name
+
+## Description
+What this skill does.
+
+## Instructions
+Step-by-step instructions Claude follows.
+
+## Examples
+Concrete examples of input/output.</code></pre>
+
+<h2>Creating Your First Skill</h2>
+
+<p>Let's build a simple PR description generator:</p>
+
+<pre><code># Generate PR Description
+
+## Description
+Analyzes staged changes and writes a clear PR description.
+
+## Instructions
+1. Run `git diff --staged` to see pending changes
+2. Categorize changes: new features, bug fixes, refactors, docs
+3. Generate a PR description with:
+   - Summary (2-3 sentences)
+   - Changes list (grouped by type)
+   - Breaking changes (if any)
+   - Testing notes
+4. Use conventional commit style
+
+## Examples
+User: "write a PR description"
+AI: [generates structured description from staged diff]</code></pre>
+
+<p>Save this as <code>.claude/skills/pr-description/SKILL.md</code> and you're done. Next time you ask Claude to write a PR description, it follows your instructions.</p>
+
+<h2>The 5 Types of Skills You Should Have</h2>
+
+<h3>1. Code Review Skills</h3>
+<p>A structured review skill catches bugs and security issues that Claude might miss in normal conversation. Look for one that covers OWASP Top 10 and has language-specific rules.</p>
+
+<h3>2. Architecture Skills</h3>
+<p>Skills that enforce project-specific patterns (e.g., "always use repository pattern in this project" or "React Server Components only, no client-side fetching").</p>
+
+<h3>3. Documentation Skills</h3>
+<p>Generate API docs, READMEs, and architecture guides that follow your team's style guide automatically.</p>
+
+<h3>4. DevOps Skills</h3>
+<p>Skills that understand your CI/CD pipeline and can generate deployment configs, Docker files, and monitoring setup.</p>
+
+<h3>5. Domain-Specific Skills</h3>
+<p>For specialized work: Chinese market content, SaaS pricing, data pipeline design, etc.</p>
+
+<h2>Pre-Built Skills (Save Time)</h2>
+
+<p>Instead of writing everything from scratch, check out these communities:</p>
+<ul>
+    <li><strong><a href="https://github.com/demo112/yunqu-ai-skills">YunDu AI Skills</a></strong> — 15 professional skills covering development, security, marketing, and Chinese market</li>
+    <li><strong><a href="https://github.com/anthropics/claude-code">Claude Code Official</a></strong> — Anthropic's examples and documentation</li>
+    <li><strong>awesome-claude-skills</strong> — Community curated list of skills</li>
+</ul>
+
+<div class="cta">
+    <h3>🚀 Skip the DIY — Get Professional Skills</h3>
+    <p>We've built 15 production-grade Claude Code Skills that you can drop into your project today:</p>
+    <ul>
+        <li>🔧 <strong>MCP Tool Developer</strong> — Build MCP servers from scratch</li>
+        <li>🔒 <strong>Security Audit Code Reviewer</strong> — OWASP-trained vulnerability scanner</li>
+        <li>🇨🇳 <strong>Chinese Market Content</strong> — Zero-competition skills for 小红书/微信/知乎</li>
+        <li>📊 <strong>Data Pipeline Architect</strong> — ETL/ELT with Airflow, dbt, Spark</li>
+    </ul>
+    <p><a href="https://demo112.github.io/yunqu-ai-skills/">Browse all 15 skills →</a> (from ¥35)</p>
+</div>
+
+<h2>Advanced Tips</h2>
+
+<h3>Tip 1: Use Multiple Skills Together</h3>
+<p>Stack skills for compound effects. Example: <strong>Code Review Sensei</strong> + <strong>Security Audit Code Reviewer</strong> gives you both quality and security reviews in one pass.</p>
+
+<h3>Tip 2: Add Anti-Patterns</h3>
+<p>The best skills include an "anti-patterns" section — things Claude should <em>not</em> do. This is often more useful than positive instructions.</p>
+
+<h3>Tip 3: Version Your Skills</h3>
+<p>Keep skills in your git repo. When your project evolves, update the skills too. This creates a living knowledge base.</p>
+
+<h3>Tip 4: Test Skills with Examples</h3>
+<p>Include concrete examples in your SKILL.md. Claude follows examples more reliably than abstract instructions.</p>
+
+<h2>Common Mistakes</h2>
+
+<ol>
+    <li><strong>Too long</strong>: Skills over 200 lines dilute Claude's attention. Keep it focused.</li>
+    <li><strong>Too vague</strong>: "Write good code" is useless. "Use repository pattern, always return Result<T,Error>" is useful.</li>
+    <li><strong>No examples</strong>: Without examples, Claude interprets instructions differently than you expect.</li>
+    <li><strong>Copy-pasting</strong>: A skill written for a REST API project won't work well for a GraphQL project. Customize.</li>
+</ol>
+
+<h2>Conclusion</h2>
+
+<p>Claude Code Skills are the single highest-leverage way to improve your AI-assisted coding. A well-crafted 50-line SKILL.md can save hours of back-and-forth with Claude and produce dramatically better output.</p>
+
+<p>Start with one skill for your most repetitive task. Once you see the difference, you'll want skills for everything.</p>
+
+<p><a href="https://demo112.github.io/yunqu-ai-skills/">→ Browse 15 pre-built professional skills</a></p>
+
+<footer>
+    <p>© 2026 <a href="https://demo112.github.io/yunqu-ai-skills/">云渡 AI</a> · 
+    <a href="index.html">Blog</a> · 
+    <a href="https://github.com/demo112/yunqu-ai-skills">GitHub</a></p>
+</footer>
+</article>
+</body>
+</html>
