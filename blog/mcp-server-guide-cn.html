@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026年MCP Server开发完全指南 — AI Agent工具开发教程</title>
+    <meta name="description" content="MCP Server开发教程：从零开始构建Model Context Protocol服务器。Python/TypeScript双语言示例，含部署和测试。">
+    <meta name="keywords" content="MCP Server, Model Context Protocol, Claude, AI Agent, MCP教程, Python MCP, 开发指南, 2026">
+    <link rel="canonical" href="https://demo112.github.io/yunqu-ai-skills/blog/mcp-server-guide-cn.html">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; color: #24292f; line-height: 1.8; background: #fff; }
+        .container { max-width: 760px; margin: 0 auto; padding: 2rem 1.5rem; }
+        nav { background: #f6f8fa; padding: 0.75rem 1.5rem; border-bottom: 1px solid #d0d7de; margin-bottom: 2rem; }
+        nav a { color: #0969da; text-decoration: none; margin-right: 1rem; }
+        h1 { font-size: 2rem; margin-bottom: 0.5rem; line-height: 1.3; }
+        .meta { color: #656d76; margin-bottom: 2rem; }
+        h2 { font-size: 1.4rem; margin: 2rem 0 1rem; color: #0969da; }
+        h3 { font-size: 1.15rem; margin: 1.5rem 0 0.75rem; }
+        p { margin: 0.75rem 0; }
+        code { background: #f6f8fa; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.88em; }
+        pre { background: #24292f; color: #e6edf3; padding: 1.25rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; font-size: 0.88em; line-height: 1.5; }
+        pre code { background: none; padding: 0; color: inherit; }
+        ul, ol { margin: 0.75rem 0; padding-left: 1.5rem; }
+        li { margin: 0.3rem 0; }
+        .callout { background: #ddf4ff; border-left: 4px solid #0969da; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1rem 0; }
+        .callout-success { background: #dafbe1; border-left-color: #116329; }
+        a { color: #0969da; }
+        footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #d0d7de; color: #656d76; font-size: 0.85rem; }
+        .cta { display: inline-block; background: #0969da; color: white; padding: 0.6rem 1.2rem; border-radius: 6px; text-decoration: none; font-weight: 600; margin: 0.5rem 0.5rem 0.5rem 0; }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="https://demo112.github.io/yunqu-ai-skills/">🏠 云渡 AI Skills</a>
+    <a href="https://github.com/demo112/yunqu-ai-skills">GitHub</a>
+</nav>
+<div class="container">
+    <h1>2026年MCP Server开发完全指南</h1>
+    <p class="meta">2026年5月14日 · 10分钟阅读 · <a href="https://github.com/demo112">云渡 AI</a></p>
+
+    <p><strong>Model Context Protocol (MCP)</strong> 是AI Agent连接外部工具的标准协议。Claude、ChatGPT、Cursor、Windsurf都已支持MCP。本文从零教你构建MCP Server。</p>
+
+    <h2>MCP是什么？</h2>
+    <p>MCP是AI模型的「USB接口」——任何支持MCP的工具都能直接接入任何支持MCP的AI。</p>
+    <p>MCP Server暴露三类能力：</p>
+    <ul>
+        <li><strong>Tools（工具）</strong> — AI可以调用的函数（如"转换这个PDF"）</li>
+        <li><strong>Resources（资源）</strong> — AI可以读取的数据（如"列出可用文件"）</li>
+        <li><strong>Prompts（提示词）</strong> — 可复用的提示词模板</li>
+    </ul>
+
+    <div class="callout">
+        <strong>2026年MCP生态：</strong>微软Playwright MCP 32K+ stars，Figma MCP 14K+ stars。MCP已成为AI工具集成的事实标准。
+    </div>
+
+    <h2>5分钟构建你的第一个MCP Server</h2>
+
+    <h3>1. 环境准备</h3>
+    <pre><code>mkdir my-mcp-server && cd my-mcp-server
+python -m venv venv
+source venv/bin/activate
+pip install mcp</code></pre>
+
+    <h3>2. 编写Server</h3>
+    <pre><code># server.py
+from mcp.server import Server
+from mcp.types import Tool, TextContent
+import mcp.server.stdio
+
+server = Server("my-server")
+
+@server.list_tools()
+async def list_tools() -> list[Tool]:
+    return [
+        Tool(
+            name="hello",
+            description="向某人打招呼",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string", "description": "姓名"}
+                },
+                "required": ["name"]
+            }
+        )
+    ]
+
+@server.call_tool()
+async def call_tool(name: str, arguments: dict):
+    if name == "hello":
+        return [TextContent(type="text", text=f"你好，{arguments['name']}！👋")]
+    raise ValueError(f"未知工具: {name}")
+
+async def main():
+    async with mcp.server.stdio.stdio_server() as (read, write):
+        await server.run(read, write, server.create_initialization_options())
+
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(main())</code></pre>
+
+    <h3>3. 测试</h3>
+    <pre><code>npx @modelcontextprotocol/inspector python server.py</code></pre>
+
+    <h3>4. 接入Claude Code</h3>
+    <pre><code>// ~/.claude/settings.json
+{
+  "mcpServers": {
+    "my-server": {
+      "command": "python",
+      "args": ["server.py"],
+      "cwd": "/path/to/my-mcp-server"
+    }
+  }
+}</code></pre>
+
+    <div class="callout-success">
+        <strong>🎉 完成！</strong>现在Claude可以使用你的自定义工具了。试试问它"你有什么工具？"
+    </div>
+
+    <h2>实战案例</h2>
+    <p>我们已经开发了两个MCP工具：</p>
+    <ul>
+        <li><strong><a href="https://github.com/demo112/mcp-server-convert">MCP Server Convert</a></strong> — 文档转Markdown，支持PDF/DOCX/HTML/EPUB等7种格式</li>
+        <li><strong><a href="https://github.com/demo112/cn-calendar-skill">CN Calendar Skill</a></strong> — 中国日历全栈工具包，工作日判断/假期计算/农历转换</li>
+    </ul>
+
+    <h2>开发建议</h2>
+    <ol>
+        <li><strong>清晰的工具描述</strong> — AI根据描述决定何时使用你的工具</li>
+        <li><strong>详细的输入Schema</strong> — 每个属性都写description</li>
+        <li><strong>优雅的错误处理</strong> — 返回有用的错误信息，不要抛堆栈</li>
+        <li><strong>保持响应精简</strong> — LLM有上下文限制</li>
+        <li><strong>用MCP Inspector测试</strong> — 部署前必测</li>
+    </ol>
+
+    <a href="https://github.com/demo112/mcp-server-convert" class="cta">⭐ MCP Server Convert</a>
+    <a href="https://github.com/demo112/cn-calendar-skill" class="cta">📅 CN Calendar Skill</a>
+
+    <footer>
+        <p>© 2026 云渡 AI · <a href="https://demo112.github.io/yunqu-ai-skills/">云渡 AI Skills</a></p>
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Build Your First MCP Server in 2026 — Complete Guide</title>
+    <meta name="description" content="Learn how to build a Model Context Protocol (MCP) server from scratch. Step-by-step guide with Python and TypeScript examples, testing, and deployment.">
+    <meta name="keywords" content="MCP server, Model Context Protocol, Claude, AI agent, build MCP server, MCP tutorial, Python MCP, TypeScript MCP, 2026">
+    <link rel="canonical" href="https://demo112.github.io/yunqu-ai-skills/blog/build-mcp-server-2026.html">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #24292f; line-height: 1.8; background: #fff; }
+        .container { max-width: 760px; margin: 0 auto; padding: 2rem 1.5rem; }
+        nav { background: #f6f8fa; padding: 0.75rem 1.5rem; border-bottom: 1px solid #d0d7de; margin-bottom: 2rem; }
+        nav a { color: #0969da; text-decoration: none; margin-right: 1rem; }
+        h1 { font-size: 2rem; margin-bottom: 0.5rem; line-height: 1.3; }
+        .meta { color: #656d76; margin-bottom: 2rem; }
+        h2 { font-size: 1.4rem; margin: 2rem 0 1rem; color: #0969da; }
+        h3 { font-size: 1.15rem; margin: 1.5rem 0 0.75rem; }
+        p { margin: 0.75rem 0; }
+        code { background: #f6f8fa; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.88em; font-family: 'SF Mono', Monaco, monospace; }
+        pre { background: #24292f; color: #e6edf3; padding: 1.25rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; font-size: 0.88em; line-height: 1.5; }
+        pre code { background: none; padding: 0; color: inherit; }
+        ul, ol { margin: 0.75rem 0; padding-left: 1.5rem; }
+        li { margin: 0.3rem 0; }
+        .callout { background: #ddf4ff; border-left: 4px solid #0969da; padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1rem 0; }
+        .callout-warning { background: #fff8c5; border-left-color: #bf8700; }
+        .callout-success { background: #dafbe1; border-left-color: #116329; }
+        a { color: #0969da; }
+        .toc { background: #f6f8fa; padding: 1rem 1.5rem; border-radius: 8px; margin: 1.5rem 0; }
+        .toc h3 { margin-top: 0; }
+        .toc ul { list-style: none; padding-left: 0; }
+        .toc li { padding: 0.15rem 0; }
+        footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #d0d7de; color: #656d76; font-size: 0.85rem; }
+        .cta { display: inline-block; background: #0969da; color: white; padding: 0.6rem 1.2rem; border-radius: 6px; text-decoration: none; font-weight: 600; margin: 0.5rem 0.5rem 0.5rem 0; }
+        .cta:hover { background: #0860ca; }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "How to Build Your First MCP Server in 2026",
+        "description": "Complete guide to building Model Context Protocol servers for AI agents",
+        "author": { "@type": "Organization", "name": "YunDu AI" },
+        "datePublished": "2026-05-14",
+        "dateModified": "2026-05-14"
+    }
+    </script>
+</head>
+<body>
+<nav>
+    <a href="https://demo112.github.io/yunqu-ai-skills/">🏠 云渡 AI Skills</a>
+    <a href="https://github.com/demo112/yunqu-ai-skills">GitHub</a>
+    <a href="https://github.com/demo112/mcp-server-convert">MCP Server Convert</a>
+</nav>
+<div class="container">
+    <h1>How to Build Your First MCP Server in 2026</h1>
+    <p class="meta">Published May 14, 2026 · 12 min read · By <a href="https://github.com/demo112">YunDu AI</a></p>
+
+    <p>The <strong>Model Context Protocol (MCP)</strong> is the standard way AI agents connect to external tools and data sources. Every major AI platform — Claude, ChatGPT, Cursor, Windsurf — now supports MCP. If you're building AI-powered tools, you need to know how to build MCP servers.</p>
+
+    <p>In this guide, you'll build a working MCP server from scratch using Python. No prior MCP experience needed.</p>
+
+    <div class="toc">
+        <h3>📋 Table of Contents</h3>
+        <ul>
+            <li><a href="#what-is-mcp">What is MCP?</a></li>
+            <li><a href="#prerequisites">Prerequisites</a></li>
+            <li><a href="#step-1">Step 1: Project Setup</a></li>
+            <li><a href="#step-2">Step 2: Define Your Server</a></li>
+            <li><a href="#step-3">Step 3: Add Tools</a></li>
+            <li><a href="#step-4">Step 4: Test Your Server</a></li>
+            <li><a href="#step-5">Step 5: Connect to Claude</a></li>
+            <li><a href="#deployment">Deployment Options</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="#whats-next">What's Next?</a></li>
+        </ul>
+    </div>
+
+    <h2 id="what-is-mcp">What is MCP?</h2>
+    <p>MCP is a protocol that lets AI models interact with external tools, resources, and prompts. Think of it as a <strong>USB port for AI</strong> — any tool that speaks MCP can be plugged into any AI that supports MCP.</p>
+
+    <p>An MCP server exposes:</p>
+    <ul>
+        <li><strong>Tools</strong> — Functions the AI can call (e.g., "convert this PDF")</li>
+        <li><strong>Resources</strong> — Data the AI can read (e.g., "list available files")</li>
+        <li><strong>Prompts</strong> — Reusable prompt templates</li>
+    </ul>
+
+    <div class="callout">
+        <strong>Why MCP matters in 2026:</strong> Microsoft's Playwright MCP has 32K+ stars. Figma's MCP has 14K+ stars. MCP is the standard for AI tool integration. Building MCP servers is a high-value skill.
+    </div>
+
+    <h2 id="prerequisites">Prerequisites</h2>
+    <ul>
+        <li>Python 3.10+</li>
+        <li>Basic Python knowledge</li>
+        <li>5 minutes</li>
+    </ul>
+
+    <h2 id="step-1">Step 1: Project Setup</h2>
+    <pre><code>mkdir my-first-mcp-server
+cd my-first-mcp-server
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install mcp</code></pre>
+
+    <p>Create the project structure:</p>
+    <pre><code>my-first-mcp-server/
+├── src/
+│   └── my_server/
+│       ├── __init__.py
+│       ├── __main__.py
+│       └── server.py
+├── requirements.txt
+└── README.md</code></pre>
+
+    <h2 id="step-2">Step 2: Define Your Server</h2>
+    <p>Create <code>src/my_server/server.py</code>:</p>
+    <pre><code>from mcp.server import Server
+from mcp.types import Tool, TextContent
+import mcp.server.stdio
+
+server = Server("my-first-server")
+
+@server.list_tools()
+async def list_tools() -> list[Tool]:
+    return [
+        Tool(
+            name="hello",
+            description="Say hello to someone",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The person's name"
+                    }
+                },
+                "required": ["name"]
+            }
+        )
+    ]
+
+@server.call_tool()
+async def call_tool(name: str, arguments: dict) -> list[TextContent]:
+    if name == "hello":
+        return [TextContent(
+            type="text",
+            text=f"Hello, {arguments['name']}! 👋 Welcome to MCP."
+        )]
+    raise ValueError(f"Unknown tool: {name}")</code></pre>
+
+    <p>Create <code>src/my_server/__main__.py</code>:</p>
+    <pre><code>import asyncio
+from .server import server, mcp
+
+async def main():
+    async with mcp.server.stdio.stdio_server() as (read, write):
+        await server.run(read, write, server.create_initialization_options())
+
+if __name__ == "__main__":
+    asyncio.run(main())</code></pre>
+
+    <h2 id="step-3">Step 3: Add More Tools</h2>
+    <p>Let's add a tool that does something useful — generate a timestamp:</p>
+    <pre><code>from datetime import datetime, timezone
+
+@server.list_tools()
+async def list_tools() -> list[Tool]:
+    return [
+        Tool(
+            name="hello",
+            description="Say hello to someone",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string", "description": "Name"}
+                },
+                "required": ["name"]
+            }
+        ),
+        Tool(
+            name="timestamp",
+            description="Get the current timestamp in various formats",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "format": {
+                        "type": "string",
+                        "description": "Format: 'iso', 'unix', or 'readable'",
+                        "enum": ["iso", "unix", "readable"]
+                    }
+                },
+                "required": ["format"]
+            }
+        )
+    ]
+
+@server.call_tool()
+async def call_tool(name: str, arguments: dict) -> list[TextContent]:
+    if name == "hello":
+        return [TextContent(type="text", text=f"Hello, {arguments['name']}! 👋")]
+    
+    if name == "timestamp":
+        now = datetime.now(timezone.utc)
+        fmt = arguments["format"]
+        if fmt == "iso":
+            result = now.isoformat()
+        elif fmt == "unix":
+            result = str(int(now.timestamp()))
+        else:
+            result = now.strftime("%B %d, %Y at %I:%M %p UTC")
+        return [TextContent(type="text", text=result)]
+    
+    raise ValueError(f"Unknown tool: {name}")</code></pre>
+
+    <h2 id="step-4">Step 4: Test Your Server</h2>
+    <p>Use the MCP Inspector to test:</p>
+    <pre><code>npx @modelcontextprotocol/inspector python -m my_server</code></pre>
+
+    <p>This opens a web UI where you can:</p>
+    <ul>
+        <li>See all registered tools</li>
+        <li>Call each tool with test inputs</li>
+        <li>View the raw JSON responses</li>
+    </ul>
+
+    <h2 id="step-5">Step 5: Connect to Claude</h2>
+    <p>Add to your Claude Code settings (<code>~/.claude/settings.json</code>):</p>
+    <pre><code>{
+  "mcpServers": {
+    "my-server": {
+      "command": "python",
+      "args": ["-m", "my_server"],
+      "cwd": "/path/to/my-first-mcp-server"
+    }
+  }
+}</code></pre>
+
+    <p>Now ask Claude: <em>"What tools do you have?"</em> and it will list your custom tools!</p>
+
+    <div class="callout-success">
+        <strong>🎉 Congratulations!</strong> You've built a working MCP server. Claude can now use your custom tools.
+    </div>
+
+    <h2 id="deployment">Deployment Options</h2>
+    <h3>Docker (Recommended)</h3>
+    <pre><code>FROM python:3.12-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY src/ src/
+CMD ["python", "-m", "my_server"]</code></pre>
+
+    <h3>stdio Transport (Default)</h3>
+    <p>Best for local development and Claude Code integration.</p>
+
+    <h3>SSE Transport (Remote)</h3>
+    <p>For cloud deployment, use Server-Sent Events:</p>
+    <pre><code># In your server.py
+from mcp.server.sse import SseServerTransport
+
+sse = SseServerTransport("/messages")
+app = Starlette(routes=[sse.get_sse_endpoint(), ...])</code></pre>
+
+    <h2 id="best-practices">Best Practices</h2>
+    <ol>
+        <li><strong>Clear tool descriptions</strong> — The AI reads these to decide when to use your tool</li>
+        <li><strong>Detailed input schemas</strong> — Use JSON Schema with descriptions for each property</li>
+        <li><strong>Handle errors gracefully</strong> — Return helpful error messages, not stack traces</li>
+        <li><strong>Keep responses concise</strong> — LLMs have context limits; don't return megabytes of text</li>
+        <li><strong>Test with MCP Inspector</strong> — Always test before deploying</li>
+        <li><strong>Add a good README</strong> — Include installation, usage, and configuration examples</li>
+    </ol>
+
+    <h2 id="whats-next">What's Next?</h2>
+    <p>Now that you can build MCP servers, here are ideas for your next project:</p>
+    <ul>
+        <li><strong>Document converter</strong> — Our <a href="https://github.com/demo112/mcp-server-convert">MCP Server Convert</a> converts PDF/DOCX/HTML to Markdown</li>
+        <li><strong>Chinese calendar</strong> — Our <a href="https://github.com/demo112/cn-calendar-skill">cn-calendar-skill</a> handles Chinese holidays and lunar calendar</li>
+        <li><strong>Database connector</strong> — Let AI query your database safely</li>
+        <li><strong>API gateway</strong> — Wrap any REST API as an MCP tool</li>
+    </ul>
+
+    <div class="callout">
+        <strong>Want production-ready MCP servers?</strong> Check out our collection of <a href="https://demo112.github.io/yunqu-ai-skills/">15 professional AI Skills</a> for Claude, including MCP server development templates.
+    </div>
+
+    <a href="https://github.com/demo112/mcp-server-convert" class="cta">⭐ MCP Server Convert</a>
+    <a href="https://github.com/demo112/yunqu-ai-skills" class="cta">📦 AI Skills Collection</a>
+
+    <footer>
+        <p>Published by <a href="https://github.com/demo112">YunDu AI</a> · May 2026 · <a href="https://demo112.github.io/yunqu-ai-skills/">云渡 AI Skills</a></p>
+    </footer>
+</div>
+</body>
+</html>

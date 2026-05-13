@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://demo112.github.io/yunqu-ai-skills/sitemap.xml
