@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>云渡 AI Skills — 专业 Claude Skills 商店</title>
+    <meta name="description" content="15个精选 Claude Skills，覆盖开发、安全、营销、中文市场。即买即用，SKILL.md 格式。">
+    <meta name="keywords" content="Claude Skills, AI Skills, Claude Code, MCP, 开发者工具, AI副业">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0f0f0f;
+            --surface: #1a1a1a;
+            --surface2: #222;
+            --border: #2a2a2a;
+            --text: #e8e8e8;
+            --text-muted: #888;
+            --accent: #ff6b35;
+            --accent2: #ff8f5e;
+            --green: #4ade80;
+            --blue: #60a5fa;
+            --purple: #a78bfa;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro SC', 'PingFang SC', 'Noto Sans SC', system-ui, sans-serif;
+            background: var(--bg); color: var(--text); line-height: 1.7;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { color: var(--accent2); }
+
+        /* Hero */
+        .hero {
+            padding: 80px 0 50px; text-align: center;
+            background: radial-gradient(ellipse at 50% 0%, rgba(255,107,53,0.08) 0%, transparent 60%);
+        }
+        .hero h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.02em; }
+        .hero h1 span { color: var(--accent); }
+        .hero .subtitle { font-size: 1.15rem; color: var(--text-muted); max-width: 620px; margin: 0 auto 36px; }
+        .hero .stats { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+        .hero .stat { text-align: center; }
+        .hero .stat-num { font-size: 2rem; font-weight: 700; color: var(--accent); }
+        .hero .stat-label { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Section */
+        .section { padding: 40px 0; }
+        .section h2 { font-size: 1.4rem; margin-bottom: 24px; display: flex; align-items: center; gap: 8px; }
+
+        /* Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+        .card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+            padding: 24px; transition: border-color 0.2s, transform 0.15s;
+        }
+        .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .card-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; }
+        .card h3 { font-size: 1.05rem; font-weight: 600; flex: 1; }
+        .price {
+            background: var(--accent); color: #000; font-weight: 700; font-size: 0.85rem;
+            padding: 3px 10px; border-radius: 6px; white-space: nowrap; margin-left: 12px;
+        }
+        .card .desc { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 14px; line-height: 1.6; }
+        .card .tags { display: flex; flex-wrap: wrap; gap: 5px; }
+        .tag {
+            background: var(--surface2); border: 1px solid var(--border); border-radius: 4px;
+            padding: 2px 8px; font-size: 0.72rem; color: var(--text-muted);
+        }
+        .tag.hot { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+        .tag.blue { border-color: var(--blue); color: var(--blue); }
+        .tag.green { border-color: var(--green); color: var(--green); }
+        .tag.purple { border-color: var(--purple); color: var(--purple); }
+
+        /* CTA */
+        .cta { text-align: center; padding: 50px 0; border-top: 1px solid var(--border); }
+        .cta h2 { font-size: 1.6rem; margin-bottom: 12px; }
+        .cta p { color: var(--text-muted); margin-bottom: 20px; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .btn {
+            display: inline-block; background: var(--accent); color: #000; font-weight: 700;
+            padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 1rem;
+            transition: background 0.2s; border: none; cursor: pointer;
+        }
+        .btn:hover { background: var(--accent2); color: #000; }
+        .btn-outline {
+            display: inline-block; border: 2px solid var(--accent); color: var(--accent);
+            font-weight: 600; padding: 12px 28px; border-radius: 8px; text-decoration: none;
+            font-size: 0.95rem; transition: all 0.2s; margin-left: 12px;
+        }
+        .btn-outline:hover { background: var(--accent); color: #000; }
+
+        /* Payment */
+        .payment-box {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+            padding: 28px; margin: 20px auto; max-width: 600px; text-align: left;
+        }
+        .payment-box h3 { margin-bottom: 12px; font-size: 1.1rem; }
+        .payment-box .wallet-addr {
+            background: var(--surface2); padding: 10px 14px; border-radius: 8px;
+            font-family: 'SF Mono', 'Menlo', monospace; font-size: 0.82rem;
+            word-break: break-all; color: var(--green); margin: 8px 0;
+        }
+        .payment-box ol { padding-left: 20px; color: var(--text-muted); font-size: 0.9rem; }
+        .payment-box ol li { margin-bottom: 6px; }
+
+        /* FAQ */
+        .faq { padding: 40px 0; }
+        .faq-item { border-bottom: 1px solid var(--border); padding: 16px 0; }
+        .faq-q { font-weight: 600; margin-bottom: 6px; }
+        .faq-a { color: var(--text-muted); font-size: 0.9rem; }
+
+        footer { border-top: 1px solid var(--border); padding: 24px 0; text-align: center; color: var(--text-muted); font-size: 0.78rem; }
+
+        @media (max-width: 640px) {
+            .hero h1 { font-size: 2rem; }
+            .grid { grid-template-columns: 1fr; }
+            .hero .stats { gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="hero">
+            <h1>专业 <span>Claude Skills</span></h1>
+            <p class="subtitle">15 个精选 SKILL.md 文件，覆盖开发、安全、营销、中文市场。<br>即买即用，兼容 Claude Code / Claude API / 任何 Anthropic Agent。</p>
+            <div class="stats">
+                <div class="stat"><div class="stat-num">15</div><div class="stat-label">Skills</div></div>
+                <div class="stat"><div class="stat-num">¥35</div><div class="stat-label">起价</div></div>
+                <div class="stat"><div class="stat-num">0</div><div class="stat-label">竞品(中文)</div></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🔥 热门推荐</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>MCP Tool Developer</h3>
+                        <span class="price">¥69</span>
+                    </div>
+                    <div class="desc">从零构建 MCP Server。TypeScript/Python 双语，包含测试、部署、Registry 发布全流程。AI Agent 赛道零竞品。</div>
+                    <div class="tags"><span class="tag hot">蓝海</span><span class="tag blue">MCP</span><span class="tag">AI Agent</span></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>小红书内容策略师</h3>
+                        <span class="price">¥69</span>
+                    </div>
+                    <div class="desc">打造爆款小红书内容。收藏率优化、热门格式模板、搜索 SEO，覆盖中国第一生活方式平台。</div>
+                    <div class="tags"><span class="tag hot">零竞品</span><span class="tag green">小红书</span><span class="tag">中文营销</span></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>安全审计代码审查</h3>
+                        <span class="price">¥49</span>
+                    </div>
+                    <div class="desc">OWASP Top 10 代码审查。检测 SQL 注入、认证绕过、数据泄露等 50+ 漏洞模式，全语言支持。</div>
+                    <div class="tags"><span class="tag hot">Trending</span><span class="tag">安全</span><span class="tag">OWASP</span></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Solana Agent Builder</h3>
+                        <span class="price">¥49</span>
+                    </div>
+                    <div class="desc">构建 AI 驱动的 Solana Agent — 交易机器人、DeFi 策略、代币分析。含熔断机制和安全开关。</div>
+                    <div class="tags"><span class="tag hot">Hot</span><span class="tag purple">Web3</span><span class="tag">DeFi</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🛠 开发者工具</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>API 集成架构师</h3>
+                        <span class="price">¥49</span>
+                    </div>
+                    <div class="desc">设计、实现、调试、优化 API 集成。REST、GraphQL、Webhook、OAuth2 专家级模式。</div>
+                    <div class="tags"><span class="tag">API</span><span class="tag">REST</span><span class="tag">GraphQL</span></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>代码审查达人</h3>
+                        <span class="price">¥49</span>
+                    </div>
+                    <div class="desc">多语言代码审查，发现 Bug、安全问题、性能瓶颈和架构缺陷。超越代码风格，找到真正的问题。</div>
+                    <div class="tags"><span class="tag">代码审查</span><span class="tag">质量</span><span class="tag">多语言</span></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>DevOps 流水线构建</h3>
+                        <span class="price">¥49</span>
+                    </div>
+                    <div class="desc">构建 CI/CD 流水线、Docker 配置、K8s 部署策略。GitHub Actions / GitLab CI 实战模式。</div>
+                    <div class="tags"><span class="tag">DevOps</span><span class="tag">CI/CD</span><span class="tag">Docker</span></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Cursor 工作流优化</h3>
+                        <span class="price">¥49</span>
+                    </div>
+                    <div class="desc">精通 Cursor IDE — .cursorrules、MCP 集成、工作流模式，10x 开发效率。</div>
+                    <div class="tags"><span class="tag">Cursor</span><span class="tag">IDE</span><span class="tag">AI 编程</span></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>数据管道架构师</h3>
+                        <span class="price">¥49</span>
+                    </div>
+                    <div class="desc">设计 ETL/ELT、流式和批处理管道。Airflow、dbt、Kafka 模式，含完整实现和数据质量框架。</div>
+                    <div class="tags"><span class="tag">数据工程</span><span class="tag">ETL</span><span class="tag">Airflow</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🇨🇳 中国市场专区（零竞品）</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>微信公众号策略师</h3>
+                        <span class="price">¥69</span>
+                    </div>
+                    <div class="desc">高转化公众号内容策略。标题公式、文章架构、小程序转化策略，让公众号成为获客引擎。</div>
+                    <div class="tags"><span class="tag hot">零竞品</span><span class="tag green">公众号</span><span class="tag">内容策略</span></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>中文市场内容工程师</h3>
+                        <span class="price">¥69</span>
+                    </div>
+                    <div class="desc">全平台中文内容策略：知乎、抖音、B站。双语文案、文化敏感度、合规检查一站式解决。</div>
+                    <div class="tags"><span class="tag">中文市场</span><span class="tag">双语</span><span class="tag">全平台</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📋 商业与效率</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>SaaS 定价策略师</h3>
+                        <span class="price">¥69</span>
+                    </div>
+                    <div class="desc">数据驱动的 SaaS 定价。价值指标识别、分层架构、心理定价，来自 100+ SaaS 定价页面分析。</div>
+                    <div class="tags"><span class="tag">SaaS</span><span class="tag">定价</span><span class="tag">商业化</span></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>B2B 冷邮件序列</h3>
+                        <span class="price">¥49</span>
+                    </div>
+                    <div class="desc">写出高回复率的 6 封邮件序列。研究支撑的模板、个性化框架、A/B 测试方案。</div>
+                    <div class="tags"><span class="tag hot">Best Seller</span><span class="tag">B2B</span><span class="tag">邮件</span></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>会议精炼师</h3>
+                        <span class="price">¥49</span>
+                    </div>
+                    <div class="desc">将混乱的会议记录转化为结构化的行动项、决策、跟进。每个行动项有负责人和截止日期。</div>
+                    <div class="tags"><span class="tag hot">Trending</span><span class="tag">效率</span><span class="tag">会议</span></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>技术文档写手</h3>
+                        <span class="price">¥35</span>
+                    </div>
+                    <div class="desc">写出开发者真的会读的文档。API 参考、README、架构指南，含即用代码示例。</div>
+                    <div class="tags"><span class="tag">文档</span><span class="tag">技术写作</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>💰 购买方式</h2>
+            <div class="payment-box">
+                <h3>方案一：ETH/USDT 加密货币支付</h3>
+                <ol>
+                    <li>选择你需要的 Skill（可多选）</li>
+                    <li>转账到钱包地址：</li>
+                </ol>
+                <div class="wallet-addr">0xddD9f45e14c92846f47C1c1A4431aC2b41D87273</div>
+                <ol start="3">
+                    <li>将交易哈希发送到 <strong>huafengdongji@hotmail.com</strong>，备注所需 Skill 名称</li>
+                    <li>确认后 24 小时内发送 SKILL.md 文件</li>
+                </ol>
+            </div>
+            <div class="payment-box" style="margin-top: 16px;">
+                <h3>方案二：GitHub 直接下载（免费试用）</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">
+                    所有 Skill 的完整源码都可以在本仓库中查看。如果你觉得有帮助，欢迎通过 GitHub Sponsors 或加密货币支持我们。
+                </p>
+                <div style="margin-top: 16px; text-align: center;">
+                    <a href="https://github.com/demo112/yunqu-ai-skills" class="btn">查看 GitHub 仓库 →</a>
+                </div>
+            </div>
+            <div class="payment-box" style="margin-top: 16px;">
+                <h3>方案三：定制 Skill 服务</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">
+                    需要定制化 Skill？告诉我你的需求，为你量身打造。¥99-500/个，3个工作日内交付。
+                </p>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 6px;">
+                    联系方式：<strong>huafengdongji@hotmail.com</strong>
+                </p>
+            </div>
+        </section>
+
+        <section class="faq">
+            <h2>❓ 常见问题</h2>
+            <div class="faq-item">
+                <div class="faq-q">什么是 Claude Skill？</div>
+                <div class="faq-a">Claude Skill 是一个 SKILL.md 文件，包含结构化指令，让 Claude AI 在特定领域（如代码审查、安全审计、内容创作）表现如专家。只需将文件放入项目目录即可使用。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">兼容哪些工具？</div>
+                <div class="faq-a">兼容 Claude Code（命令行工具）、Claude API、以及任何支持 Anthropic 的 Agent 框架。也可用于 Cursor、Windsurf 等 AI 编辑器。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">购买后如何使用？</div>
+                <div class="faq-a">收到 SKILL.md 文件后，放入你的项目根目录或 ~/.claude/skills/ 目录。Claude Code 会自动识别并应用。每个文件都包含详细的使用说明和示例。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">可以免费试用吗？</div>
+                <div class="faq-a">可以！所有 Skill 源码都在 GitHub 仓库公开查看。付费版本提供优化后的完整版本和售后支持。</div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <h2>准备好升级你的 Claude 了吗？</h2>
+            <p>15 个精选 Skills，让 AI 成为你的领域专家。</p>
+            <a href="https://github.com/demo112/yunqu-ai-skills" class="btn">GitHub 仓库 →</a>
+        </section>
+
+        <footer>
+            <p>© 2026 云渡 AI · Skills 为数字产品 · 即时交付 · 商用许可</p>
+            <p style="margin-top: 4px;">GitHub: github.com/demo112/yunqu-ai-skills · 联系: huafengdongji@hotmail.com</p>
+        </footer>
+    </div>
+</body>
+</html>
